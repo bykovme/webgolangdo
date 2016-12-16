@@ -25,9 +25,7 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 fi
 
-
-
-# Install required packages
+# Install essential packages
 
 # install git
 apt -y install git
@@ -39,8 +37,8 @@ apt -y install mysql
 
 apt -y install nginx
 
-echo "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
+echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 
 read USERNAME
 
-echo 
+echo "Entered username: $USERNAME" 
