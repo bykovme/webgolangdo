@@ -1,5 +1,6 @@
 #!/bin/bash
 
+GOLANG_URL="https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz"
 OS=`lsb_release -i`
 
 if [[ $OS == *"Ubuntu"* ]]; then
@@ -38,8 +39,25 @@ apt -y install mysql
 
 apt -y install nginx
 
+# install Go
+
+echo  "Installing go language... "
+wget -O golang.tar.gz https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+tar -C /usr/local -xzf golang.tar.gz
+
+
 echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 
 read USERNAME
 
 echo "Entered username: $USERNAME" 
+
+adduser $USERNAME
+usermod -aG sudo $USERNAME
+
+runuser -l $USERNAME -c 'mkdir go'
+runuser -l $USERNAME -c 'echo "\nexport GOPATH=$HOME/go\n" >> ~/.bashrc'
+
+
+
+

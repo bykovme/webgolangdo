@@ -7,7 +7,7 @@ You can run the script directly from github using the command below
 bash <(curl -s https://raw.githubusercontent.com/bykovme/webgolangdo/master/preparegolangapp.sh)
 ```
 
-The scripts installs golang, nginx, mysql and does all the preparations required to run golang program as web application, including small demo app
+The scripts installs golang, nginx, mysql and does all the preparations required to run golang program as web application, including small demo app configured as a service
 
 The script is tested using digital ocean ubuntu droplet
 
