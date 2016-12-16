@@ -16,8 +16,9 @@ echo -n "Type 'yes' if you understand what you are doing: "
 
 read YES
 
-if [[ $YES -ne "yes" ]]; then
+if [ $YES != "yes" ]; then
 	echo "Stopping execution"
+	exit 1
 fi
 
 if [[ $EUID -ne 0 ]]; then
