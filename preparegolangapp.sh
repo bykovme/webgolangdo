@@ -10,6 +10,23 @@ else
 	exit 1
 fi
 
+echo "This script will install nginx, mysql, golang and change a lot of configurations in /etc"
+echo "Run this script only on the clean ubuntu otherwise it can break you configuration"
+echo -n "Type 'yes' if you understand what you are doing: "
+
+read YES
+
+if [[ $YES -ne "yes" ]]; then
+	echo "Stopping execution"
+fi
+
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as root, stopping execution" 
+   	exit 1
+fi
+
+
+
 # Install required packages
 
 # install git
