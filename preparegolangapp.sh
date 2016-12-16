@@ -33,7 +33,10 @@ fi
 apt -y install git
 
 # install mysql 
-apt -y install mysql
+apt -y install mysql-server
+mysql_secure_installation
+mysql_install_db
+service mysql status
 
 # install nginx
 
@@ -44,7 +47,6 @@ apt -y install nginx
 echo  "Installing go language... "
 wget -O golang.tar.gz https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
 tar -C /usr/local -xzf golang.tar.gz
-
 
 echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 
@@ -57,7 +59,4 @@ usermod -aG sudo $USERNAME
 
 runuser -l $USERNAME -c 'mkdir go'
 runuser -l $USERNAME -c 'echo "\nexport GOPATH=$HOME/go\n" >> ~/.bashrc'
-
-
-
 
