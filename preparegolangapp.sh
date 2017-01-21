@@ -114,5 +114,9 @@ echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
 
 echo "installing golang webapp, type the address otherwise default sample "
-echo "will be taken from "
+echo "will be taken from https://github.com/bykovme/webgolangdo/blob/master/samples/webapp/webapp.go "
+echo "Enter the path as it is used in go get [github.com/webgolangdo/samples/webapp]:"
 
+read REPOSITORY_PATH
+
+runuser -l $USERNAME -c 'go env'
