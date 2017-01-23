@@ -92,6 +92,8 @@ service mysql status
 
 apt -y install nginx
 
+service nginx status
+
 # install Go
 
 echo  "Installing go language... "
@@ -115,8 +117,22 @@ runuser -l $USERNAME -c 'go env'
 
 echo "installing golang webapp, type the address otherwise default sample "
 echo "will be taken from https://github.com/bykovme/webgolangdo/blob/master/samples/webapp/webapp.go "
-echo "Enter the path as it is used in go get [github.com/webgolangdo/samples/webapp]:"
+echo "Enter the path as it is used in go get [github.com/bykovme/webgolangdo/webapp]:"
 
 read REPOSITORY_PATH
 
 runuser -l $USERNAME -c 'go env'
+
+if [ $REPOSITORY_PATH == "" ]; then
+REPOSITORY_PATH="github.com/bykovme/webgolangdo/webapp"
+fi
+
+runuser -l $USERNAME -c "go get $REPOSITORY_PATH"
+
+cd "~/go/src/$REPOSITORY_PATH"
+
+wget -O /etc/init.d/goappservice https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+
+sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/init.d/goappservice
+rm goappservice.bak
+
