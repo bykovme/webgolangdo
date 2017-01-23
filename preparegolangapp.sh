@@ -109,8 +109,11 @@ echo "Entered username: $USERNAME"
 adduser $USERNAME
 usermod -aG sudo $USERNAME
 
+#wget -O /home/$USERNAME/user_install.sh https://raw.githubusercontent.com/bykovme/webgolangdo/master/scripts/user_install.sh
+#chmod /home/$USERNAME/user_install.sh 777
+
 runuser -l $USERNAME -c 'mkdir go'
-runuser -l $USERNAME -c "echo \"\nexport GOPATH=$HOME/go\n\" >> ~/.bashrc"
+runuser -l $USERNAME -c 'printf "\nexport GOPATH=$HOME/go\n" >> ~/.bashrc'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
@@ -131,8 +134,10 @@ runuser -l $USERNAME -c "go get $REPOSITORY_PATH"
 
 cd "~/go/src/$REPOSITORY_PATH"
 
-wget -O /etc/init.d/goappservice https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+wget -O /etc/init.d/goappservice https://raw.githubusercontent.com/bykovme/webgolangdo/master/service/goappservice.sh
 
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/init.d/goappservice
-rm goappservice.bak
+rm /etc/init.d/goappservice.bak
+service goappservice start
+service goappservice status
 
