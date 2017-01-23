@@ -124,15 +124,11 @@ echo "Enter the path as it is used in go get [github.com/bykovme/webgolangdo/web
 
 read REPOSITORY_PATH
 
-runuser -l $USERNAME -c 'go env'
-
 if [ $REPOSITORY_PATH == "" ]; then
 REPOSITORY_PATH="github.com/bykovme/webgolangdo/webapp"
 fi
 
 runuser -l $USERNAME -c "go get $REPOSITORY_PATH"
-
-cd "~/go/src/$REPOSITORY_PATH"
 
 wget -O /etc/init.d/goappservice https://raw.githubusercontent.com/bykovme/webgolangdo/master/service/goappservice.sh
 
