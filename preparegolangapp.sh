@@ -35,7 +35,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # request root password for mysql
-echo -n "Type the password to be used for mysql: "
+echo -n "Type the password to be used by root for mysql: "
 read MYSQL_PASS
 
 # type it again 
@@ -47,6 +47,10 @@ if [ $MYSQL_PASS != $MYSQL_PASS2 ]; then
 	echo "Password was not confirmed, stopping execution"
 	exit 1
 fi
+
+echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
+read USERNAME
+echo "Entered username: $USERNAME" 
 
 # Install essential packages
 
@@ -100,11 +104,7 @@ echo  "Installing go language... "
 wget -O golang.tar.gz https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
 tar -C /usr/local -xzf golang.tar.gz
 
-echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 
-read USERNAME
-
-echo "Entered username: $USERNAME" 
 
 adduser $USERNAME
 usermod -aG sudo $USERNAME
