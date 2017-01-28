@@ -23,8 +23,8 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 fi
 
-echo "This script will install git, nginx, mysql, golang and change a lot of configurations in /etc"
-echo "Run this script only on the clean ubuntu otherwise it can break you configuration"
+echo "This script will install git, nginx, ufw, mysql, golang and change a lot of configuration files"
+echo "Run this script only on the clean ubuntu otherwise it can break your configuration"
 echo -n "Type 'yes' if you understand what you are doing: "
 
 read YES
