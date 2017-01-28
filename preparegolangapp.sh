@@ -6,7 +6,10 @@
 # Run the latest version of the script directly in command line with the command below
 # bash <(curl -s https://raw.githubusercontent.com/bykovme/webgolangdo/master/preparegolangapp.sh)
 
+# latest golang for linux
 GOLANG_URL="https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz"
+
+# checking if the script is working on Ubuntu
 OS=`lsb_release -i`
 
 if [[ $OS == *"Ubuntu"* ]]; then
@@ -23,6 +26,7 @@ if [[ $EUID -ne 0 ]]; then
    	exit 1
 fi
 
+# showing the warning
 echo "This script will install git, nginx, ufw, mysql, golang and change a lot of configuration files"
 echo "Run this script only on the clean ubuntu otherwise it can break your configuration"
 echo -n "Type 'yes' if you understand what you are doing: "
@@ -60,6 +64,7 @@ fi
 
 fi
 
+# requesting username
 if [ -z "$USERNAME" ]; then
 echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 read USERNAME

@@ -10,8 +10,9 @@ const html = `
 <head>
 </head>
 <body>
-<h3>Congrats, GO app wass successfully configured!</h3>
+<h3>Congrats, GO app was successfully configured!</h3>
 The environment was configured using this installation script: <a target="_blank" href="https://github.com/bykovme/webgolangdo">github.com/bykovme/webgolangdo</a>
+<br>
 Find more interesting stuff here: <a target="_blank" href="https://bykov.tech/">bykov.tech</a>
 </body>
 </html>
