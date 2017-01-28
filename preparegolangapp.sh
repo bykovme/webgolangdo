@@ -91,7 +91,7 @@ fi
 
 IPADDRESS="$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')"
 
-# Checking and setting  password for new user
+# Checking and setting  server name
 if [ -z "$SERVERNAME" ]; then
 # request server name
 echo -n "Type server name for nginx config (otherwose IP addres will be taken [$IPADDRESS]: "
@@ -99,6 +99,18 @@ read SERVERNAME
 
 if [ -z "$SERVERNAME" ]; then
 SERVERNAME=$IPADDRESS
+fi
+
+fi
+
+# Checking and setting port number 
+if [ -z "$PORT" ]; then
+# request port number
+echo -n "Type port number of go application (otherwise default value will be taken [8080]: "
+read PORT
+
+if [ -z "$PORT" ]; then
+PORT="8080"
 fi
 
 fi
@@ -208,13 +220,15 @@ rm -f /etc/nginx/sites-enabled/*
 wget -O /etc/nginx/sites-available/goapp.conf https://raw.githubusercontent.com/bykovme/webgolangdo/master/configs/nginx/goapp.conf
 sed -i.bak s/{{SERVERNAME}}/$SERVERNAME/g /etc/nginx/sites-available/goapp.conf
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/nginx/sites-available/goapp.conf
+sed -i.bak s/{{PORT}}/$USERNAME/g /etc/nginx/sites-available/goapp.conf
 
 rm /etc/nginx/sites-available/goapp.conf.bak
+ln -s /etc/nginx/sites-available/goapp.conf /etc/nginx/sites-enabled/goapp.conf
 
 service nginx restart
 service nginx status
 
-echo "Web app should be ready right now"
+echo "Web app should be ready by now"
 echo "Use the following link to check it: http://$SERVERNAME"
 
 
