@@ -147,7 +147,6 @@ usermod -aG sudo $USERNAME
 runuser -l $USERNAME -c 'mkdir go'
 runuser -l $USERNAME -c 'printf "\nGOPATH=$HOME/go" >> ~/.profile'
 runuser -l $USERNAME -c 'printf "\nPATH=/usr/local/go/bin:$GOPATH/bin:$PATH\n" >> ~/.profile'
-runuser -l $USERNAME -c 'cat ~/.bashrc'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
