@@ -84,6 +84,25 @@ fi
 
 fi
 
+# setting server name
+
+# Get IP (idea taken from the link below)
+# http://stackoverflow.com/questions/13322485/how-to-i-get-the-primary-ip-address-of-the-local-machine-on-linux-and-os-x
+
+IPADDRESS="$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')"
+
+# Checking and setting  password for new user
+if [ -z "$SERVERNAME" ]; then
+# request server name
+echo -n "Type server name for nginx config (otherwose IP addres will be taken [IPADDRESS]: "
+read SERVERNAME
+
+if [ -z "$SERVERNAME" ]; then
+SERVERNAME=$IPADDRESS
+fi
+
+fi
+
 # Install essential packages
 
 # install expect
@@ -179,9 +198,23 @@ service goappservice start
 service goappservice status
 
 # configure nginx
-mkdir /etc/nginx/ssl
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+
+# Preparing ssl, will be done later
+#mkdir /etc/nginx/ssl
+#openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 rm -f /etc/nginx/sites-available/*
 rm -f /etc/nginx/sites-enabled/*
+
+wget -O /etc/nginx/sites-available/goapp.conf https://raw.githubusercontent.com/bykovme/webgolangdo/master/configs/nginx/goapp.conf
+sed -i.bak s/{{SERVERNAME}}/$SERVERNAME/g /etc/nginx/sites-available/goapp.conf
+sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/nginx/sites-available/goapp.conf
+
+rm /etc/nginx/sites-available/goapp.conf.bak
+
+service nginx restart
+service nginx status
+
+echo "Web app should be ready right now"
+echo "Use the following link to check it: http://$SERVERNAME"
 
 
