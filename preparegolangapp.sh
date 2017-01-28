@@ -34,6 +34,13 @@ if [ $YES != "yes" ]; then
 	exit 1
 fi
 
+#install and configure firewall, allow only 22 & 80 & 443 
+apt -y install ufw
+ufw allow 22/tcp
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw enable
+ufw status
 
 # Checking and setting root password fo MYSQL
 if [ -z "$MYSQL_PASS" ]; then
@@ -118,7 +125,8 @@ usermod -aG sudo $USERNAME
 #chmod /home/$USERNAME/user_install.sh 777
 
 runuser -l $USERNAME -c 'mkdir go'
-runuser -l $USERNAME -c 'printf "\nexport GOPATH=$HOME/go\n" >> ~/.bashrc'
+runuser -l $USERNAME -c 'printf "\nexport GOPATH=$HOME/go" >> ~/.bashrc'
+runuser -l $USERNAME -c 'printf "\nexport PATH=$GOPATH/bin:$PATH\n" >> ~/.bashrc'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
@@ -133,7 +141,7 @@ if [ $REPOSITORY_PATH == "" ]; then
 REPOSITORY_PATH="github.com/bykovme/webgolangdo/webapp"
 fi
 
-APPNAME=`basename $REPOSITORY_PATH`
+APPNAME="$(basename $REPOSITORY_PATH)"
 
 runuser -l $USERNAME -c "go get $REPOSITORY_PATH"
 
@@ -141,7 +149,7 @@ wget -O /etc/init.d/goappservice https://raw.githubusercontent.com/bykovme/webgo
 
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/init.d/goappservice
 sed -i.bak s/{{APPNAME}}/$APPNAME/g /etc/init.d/goappservice
-update-rc.d zhomeservice defaults
+update-rc.d goappservice defaults
 
 rm /etc/init.d/goappservice.bak
 service goappservice start
