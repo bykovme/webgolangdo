@@ -235,5 +235,6 @@ service nginx status
 
 echo "Web app should be ready by now"
 echo "Use the following link to check it: http://$SERVERNAME"
+echo "Find more stuff here: https://bykov.tech"
 
 
