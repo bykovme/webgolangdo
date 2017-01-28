@@ -27,11 +27,11 @@ The script is tested using digital ocean ubuntu droplet
 
 Script is asking all requered information during execution but you can speed up or automate its running if you setup some variables in advance
 
-$MYSQL_PASS - password for MySQL root user
-$USERNAME - linux user, go app will run with this newly created user
-$PASSWORD - password for linux user
-$SERVERNAME - if you have domain, put it here (otherwise IP address will be used)
-$PORT - port where your go app is running (8080 by default)
+$MYSQL_PASS - password for MySQL root user  
+$USERNAME - linux user, go app will run with this newly created user  
+$PASSWORD - password for linux user  
+$SERVERNAME - if you have domain, put it here (otherwise IP address will be used)  
+$PORT - port where your go app is running (8080 by default)  
 
 **WARNING! The main idea is already implemented but the script is still work in progress, use it on your oww risk  **
 
