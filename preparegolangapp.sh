@@ -225,7 +225,7 @@ rm -f /etc/nginx/sites-enabled/*
 wget -O /etc/nginx/sites-available/goapp.conf https://raw.githubusercontent.com/bykovme/webgolangdo/master/configs/nginx/goapp.conf
 sed -i.bak s/{{SERVERNAME}}/$SERVERNAME/g /etc/nginx/sites-available/goapp.conf
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/nginx/sites-available/goapp.conf
-sed -i.bak s/{{PORT}}/$USERNAME/g /etc/nginx/sites-available/goapp.conf
+sed -i.bak s/{{PORT}}/$PORT/g /etc/nginx/sites-available/goapp.conf
 
 rm /etc/nginx/sites-available/goapp.conf.bak
 ln -s /etc/nginx/sites-available/goapp.conf /etc/nginx/sites-enabled/goapp.conf
