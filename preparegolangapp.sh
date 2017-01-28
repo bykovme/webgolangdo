@@ -158,7 +158,7 @@ echo "Enter the path as it is used in go get [github.com/bykovme/webgolangdo/web
 
 read REPOSITORY_PATH
 
-if [ $REPOSITORY_PATH == "" ]; then
+if [ "$REPOSITORY_PATH" == "" ]; then
 REPOSITORY_PATH="github.com/bykovme/webgolangdo/webapp"
 fi
 
