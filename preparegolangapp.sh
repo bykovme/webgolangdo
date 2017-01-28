@@ -144,11 +144,11 @@ echo "$USERNAME:$PASSWORD" | chpasswd
 usermod -aG sudo $USERNAME
 
 runuser -l $USERNAME -c 'mkdir go'
-runuser -l $USERNAME -c 'printf "\nGOPATH=\$HOME/go" >> ~/.profile'
+runuser -l $USERNAME -c 'printf "\nexport GOPATH=\$HOME/go" >> ~/.profile'
 runuser -l $USERNAME -c 'printf "\nPATH=/usr/local/go/bin:\$GOPATH/bin:\$PATH\n" >> ~/.profile'
 echo "Checking environment variables..."
 runuser -l $USERNAME -c 'printf "\nPATH=$PATH"'
-runuser -l $USERNAME -c 'printf "\nGOPATH=$GOPATH"\n'
+runuser -l $USERNAME -c 'printf "\nGOPATH=$GOPATH\n"'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
