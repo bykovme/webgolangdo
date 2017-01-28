@@ -148,7 +148,7 @@ runuser -l $USERNAME -c 'printf "\nGOPATH=\$HOME/go" >> ~/.profile'
 runuser -l $USERNAME -c 'printf "\nPATH=/usr/local/go/bin:\$GOPATH/bin:\$PATH\n" >> ~/.profile'
 echo "Checking environment variables..."
 runuser -l $USERNAME -c 'printf "\nPATH=$PATH"'
-runuser -l $USERNAME -c 'printf "\nGOPATH=$GOPATH"'
+runuser -l $USERNAME -c 'printf "\nGOPATH=$GOPATH"\n'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
@@ -177,4 +177,11 @@ update-rc.d goappservice defaults
 rm /etc/init.d/goappservice.bak
 service goappservice start
 service goappservice status
+
+# configure nginx
+mkdir /etc/nginx/ssl
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+rm -f /etc/nginx/sites-available/*
+rm -f /etc/nginx/sites-enabled/*
+
 
