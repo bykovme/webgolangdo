@@ -66,6 +66,24 @@ read USERNAME
 echo "Entered username: $USERNAME" 
 fi
 
+# Checking and setting  password for new user
+if [ -z "$PASSWORD" ]; then
+# request root password for mysql
+echo -n "Type the password to be used by Ubuntu user: "
+read PASSWORD
+
+# type it again 
+echo -n "Type the password again to confirm it: "
+read PASSWORD2
+
+# check if it is the same
+if [ $PASSWORD != $PASSWORD2 ]; then
+	echo "Password was not confirmed, stopping execution"
+	exit 1
+fi
+
+fi
+
 # Install essential packages
 
 # install expect
@@ -118,34 +136,18 @@ echo  "Installing go language... "
 wget -O golang.tar.gz $GOLANG_URL
 tar -C /usr/local -xzf golang.tar.gz
 
-# Checking and setting  password for new user
-if [ -z "$PASSWORD" ]; then
-# request root password for mysql
-echo -n "Type the password to be used by Ubuntu user: "
-read PASSWORD
 
-# type it again 
-echo -n "Type the password again to confirm it: "
-read PASSWORD2
-
-# check if it is the same
-if [ $PASSWORD != $PASSWORD2 ]; then
-	echo "Password was not confirmed, stopping execution"
-	exit 1
-fi
-
-fi
-
-adduser --quiet --disabled-password $USERNAME
+# adding new linux user
+adduser --quiet --disabled-password --gecos "$USERNAME,,," $USERNAME
+#setting its password
 echo "$USERNAME:$PASSWORD" | chpasswd
+# adding to sudo group
 usermod -aG sudo $USERNAME
-
-#wget -O /home/$USERNAME/user_install.sh https://raw.githubusercontent.com/bykovme/webgolangdo/master/scripts/user_install.sh
-#chmod /home/$USERNAME/user_install.sh 777
 
 runuser -l $USERNAME -c 'mkdir go'
 runuser -l $USERNAME -c 'printf "\nexport GOPATH=$HOME/go" >> ~/.bashrc'
 runuser -l $USERNAME -c 'printf "\nexport PATH=$GOPATH/bin:$PATH\n" >> ~/.bashrc'
+runuser -l $USERNAME -c 'cat ~/.bashrc'
 
 echo "Checking if GO was installed correctly..."
 runuser -l $USERNAME -c 'go env'
@@ -168,7 +170,7 @@ wget -O /etc/init.d/goappservice https://raw.githubusercontent.com/bykovme/webgo
 
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/init.d/goappservice
 sed -i.bak s/{{APPNAME}}/$APPNAME/g /etc/init.d/goappservice
-chmod /etc/init.d/goappservice 755
+chmod 755 /etc/init.d/goappservice 
 update-rc.d goappservice defaults
 
 rm /etc/init.d/goappservice.bak
