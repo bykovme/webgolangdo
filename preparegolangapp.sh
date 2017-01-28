@@ -17,6 +17,12 @@ else
 	exit 1
 fi
 
+# check if current user has root privileges
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as root, stopping execution" 
+   	exit 1
+fi
+
 echo "This script will install git, nginx, mysql, golang and change a lot of configurations in /etc"
 echo "Run this script only on the clean ubuntu otherwise it can break you configuration"
 echo -n "Type 'yes' if you understand what you are doing: "
@@ -28,12 +34,9 @@ if [ $YES != "yes" ]; then
 	exit 1
 fi
 
-# check if current user has root privileges
-if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as root, stopping execution" 
-   	exit 1
-fi
 
+# Checking and setting root password fo MYSQL
+if [ -z "$MYSQL_PASS" ]; then
 # request root password for mysql
 echo -n "Type the password to be used by root for mysql: "
 read MYSQL_PASS
@@ -48,9 +51,13 @@ if [ $MYSQL_PASS != $MYSQL_PASS2 ]; then
 	exit 1
 fi
 
+fi
+
+if [ -z "$USERNAME" ]; then
 echo -n "Fill the username to be used for maintaining golang web application (cannot be 'root'!), followed by [ENTER]:"
 read USERNAME
 echo "Entered username: $USERNAME" 
+fi
 
 # Install essential packages
 
@@ -101,10 +108,8 @@ service nginx status
 # install Go
 
 echo  "Installing go language... "
-wget -O golang.tar.gz https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz
+wget -O golang.tar.gz $GOLANG_URL
 tar -C /usr/local -xzf golang.tar.gz
-
-
 
 adduser $USERNAME
 usermod -aG sudo $USERNAME
@@ -128,11 +133,16 @@ if [ $REPOSITORY_PATH == "" ]; then
 REPOSITORY_PATH="github.com/bykovme/webgolangdo/webapp"
 fi
 
+APPNAME=`basename $REPOSITORY_PATH`
+
 runuser -l $USERNAME -c "go get $REPOSITORY_PATH"
 
 wget -O /etc/init.d/goappservice https://raw.githubusercontent.com/bykovme/webgolangdo/master/service/goappservice.sh
 
 sed -i.bak s/{{USERNAME}}/$USERNAME/g /etc/init.d/goappservice
+sed -i.bak s/{{APPNAME}}/$APPNAME/g /etc/init.d/goappservice
+update-rc.d zhomeservice defaults
+
 rm /etc/init.d/goappservice.bak
 service goappservice start
 service goappservice status
