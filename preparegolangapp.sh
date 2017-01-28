@@ -6,7 +6,7 @@
 # Run the latest version of the script directly in command line with the command below
 # bash <(curl -s https://raw.githubusercontent.com/bykovme/webgolangdo/master/preparegolangapp.sh)
 
-GOLANG_URL="https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz"
+GOLANG_URL="https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz"
 OS=`lsb_release -i`
 
 if [[ $OS == *"Ubuntu"* ]]; then
@@ -135,7 +135,6 @@ service nginx status
 echo  "Installing go language... "
 wget -O golang.tar.gz $GOLANG_URL
 tar -C /usr/local -xzf golang.tar.gz
-
 
 # adding new linux user
 adduser --quiet --disabled-password --gecos "$USERNAME,,," $USERNAME
