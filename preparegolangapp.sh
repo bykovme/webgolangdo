@@ -94,7 +94,7 @@ IPADDRESS="$(ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep 
 # Checking and setting  password for new user
 if [ -z "$SERVERNAME" ]; then
 # request server name
-echo -n "Type server name for nginx config (otherwose IP addres will be taken [IPADDRESS]: "
+echo -n "Type server name for nginx config (otherwose IP addres will be taken [$IPADDRESS]: "
 read SERVERNAME
 
 if [ -z "$SERVERNAME" ]; then
