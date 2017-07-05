@@ -1,7 +1,7 @@
 # WIP: prepare clean Ubuntu machine to work as golang app server
 bash script, it is preparing golang webapplication on newly created digital ocean droplet
 
-You can run the script directly from github using the command below
+You can run the script directly from github using the command below (make sure you have curl available, it can be easily installed with the command `apt install curl`)
 
 ```
 bash <(curl -s https://raw.githubusercontent.com/bykovme/webgolangdo/master/preparegolangapp.sh)
