@@ -7,7 +7,7 @@
 # bash <(curl -s https://raw.githubusercontent.com/bykovme/webgolangdo/master/preparegolangapp.sh)
 
 # latest golang for linux
-GOLANG_URL="https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz"
+GOLANG_URL="https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz"
 
 # checking if the script is working on Ubuntu
 OS=`lsb_release -i`
